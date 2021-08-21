@@ -1,9 +1,15 @@
-# 🍕 SliceR
+# 🍕 SliceR - Not Everything at Once
 
 SliceR is a specialized browser with first class support for [incremental
 learning][0].
 
 > ⚠️ Please note this project is under development, use at your own risk!
+
+There is a wealth of information out there that your are never going to consume or gain knowledge from.
+All those files, videos, bookmarks, screenshots will be forgotten. You won’t  become a master.
+
+SliceR is your teacher. The one tool that will keep you accountable to your learning goals. It will help you 
+stay on track and be true to your goals. SliceR makes learning fun 🤩 Achieve mastery!
 
 ## Why Build a Web Browser?
 
