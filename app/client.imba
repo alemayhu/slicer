@@ -1,3 +1,7 @@
+import axios from 'axios'
+
+import resources from "../mvp/fake-data"
+
 global css html
 	ff:sans
 
