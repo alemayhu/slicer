@@ -25,24 +25,22 @@ time your learning tools understand it well!
 
 ## Development
 
-### Available Scripts
+This project was bootstrapped with [imba-electron-template](https://github.com/imba/imba-electron-template).
+
+## Available Scripts
 
 In the project directory, you can run:
 
-#### `npm start`
+### `npm run watch`
 
-Runs the app in the development mode.
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Continuously build the project.
 
-The page will reload if you make edits.
-You will also see any lint errors in the console.
+### `npm start`
 
-#### `npm run build`
+Start the electron application.
 
-Builds the app for production to the `dist` folder.
+# Caveats
 
-## Credits
-
-This project was bootstrapped with [imba-base-template](https://github.com/imba/imba-base-template).
+If you set `nodeIntegration` to `true` you also need to add `"builtins"` to `"external"` list in imbaconfig->defaults->renderer
 
 [0]: https://supermemo.guru/wiki/Incremental_learning

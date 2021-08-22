@@ -1,6 +1,4 @@
-import axios from 'axios'
-
-import resources from "../mvp/fake-data"
+import resources from "./mvp/fake-data"
 
 global css html
 	ff:sans
@@ -16,7 +14,11 @@ tag app
 		console.log('is toggle open?', toggle.open)
 		if toggle.open
 			const res = resources[0]
-			console.log('TODO fetch', res.resource)
+			console.log('fetching', res.resource)
+			console.log(axios)
+			const response = await window.fetch(res.resource)
+			const page = await response.text()
+			console.log('page21', page)
 
 
 	<self [bg: red d:block w: 100vw h: 100vh]>

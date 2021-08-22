@@ -1,13 +1,17 @@
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Simple Imba App</title>
-        <!-- reference to the client script styles -->
-        <style src='*'></style>
-    </head>
-    <body>
-        <!-- reference to the client script -->
-        <script type="module" src="./client.imba"></script>
-    </body>
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>SliceR</title>
+</head>
+
+<body>
+  We are using Node.js <span id="node-version"></span>,
+  Chromium <span id="chrome-version"></span>,
+  and Electron <span id="electron-version"></span>.
+  <!-- You can also require other files to run in this process -->
+  <script type="module" src="./renderer.imba"></script>
+</body>
+
 </html>
