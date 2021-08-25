@@ -15,7 +15,7 @@ tag app
 		if toggle.open
 			const res = resources[0]
 			console.log('fetching', res.resource)
-			console.log(axios)
+			console.log('')
 			const response = await window.fetch(res.resource)
 			const page = await response.text()
 			console.log('page21', page)
