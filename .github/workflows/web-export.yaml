@@ -1,0 +1,26 @@
+on:
+  push:
+    branches:
+      - main
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🏗 Setup repo
+        working-directory: ./voracious
+        uses: actions/checkout@v2
+
+      - name: 🏗 Setup Node
+        working-directory: ./voracious
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16.x
+          cache: yarn
+
+      - name: 📦 Install dependencies
+        working-directory: ./voracious
+        run: yarn install
+
+      - name: 🧱 Build app
+        working-directory: ./voracious
+        run: expo export:web
