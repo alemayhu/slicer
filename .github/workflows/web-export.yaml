@@ -21,4 +21,4 @@ jobs:
 
       - name: 🧱 Build app
         working-directory: ./voracious
-        run: expo export:web
+        run: npx expo export:web
