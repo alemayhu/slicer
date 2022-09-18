@@ -23,19 +23,12 @@ Being a web browser will enable us to do more things with a HTML webpages and ot
 
 In no particular order, here are the features that I consider to be important to get this to be an amazing experience. Note that this differs from Peter Wozniak’s minimum defninitation and SRS is not considered a part of this browser. This where you would integrate with Anki. This might change in the future but not for v1.
 
-1.  Support for highlighting
-
-1.  Text and this includes images, video, and audio files.
-
-2.  Bookmarks
-
-1.  Intelligently be able to bookmark anything or anywhere.
-
-3.  Prioritisation
-
-1.  Define what is important easily
-
-4.  Automatic behaviour
-
-1.  Sorting based on priority
-2.  Postponing less important
+- Support for highlighting
+- - Text and this includes images, video, and audio files.
+- Bookmarks
+- - Intelligently be able to bookmark anything or anywhere.
+- Prioritisation
+- - Define what is important easily
+- Automatic behaviour
+- - Sorting based on priority
+- - Postponing less important
