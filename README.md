@@ -29,4 +29,8 @@ powerful learning tools that deliver people with insane value. If you want
 something very flexible, you need to invent it. The DOM is here to stay. It’s
 time your learning tools understand it well!
 
+## The Goal
+
+The goal of this project is to create a web browser that is faster, more secure, and user-friendly.
+
 [0]: https://supermemo.guru/wiki/Incremental_learning
