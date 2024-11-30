@@ -2,10 +2,10 @@ use std::fs::{File, OpenOptions, create_dir_all};
 use std::io::{Write, Read};
 use std::path::PathBuf;
 use fs2::FileExt;
-use sysinfo::{System, SystemExt, ProcessExt};
+use sysinfo::{System, SystemExt, PidExt};
 
 pub struct SingleInstance {
-    _file: File,
+    file: File,
     lock_path: PathBuf,
 }
 
@@ -36,7 +36,7 @@ impl SingleInstance {
                     .map_err(|e| format!("Failed to write PID to lock file: {}", e))?;
 
                 Ok(Self { 
-                    _file: file,
+                    file,
                     lock_path,
                 })
             },
@@ -47,7 +47,7 @@ impl SingleInstance {
 
                 if let Ok(pid) = pid_str.trim().parse::<u32>() {
                     let system = System::new_all();
-                    if system.process(sysinfo::Pid::from(pid as usize)).is_some() {
+                    if system.process(sysinfo::Pid::from_u32(pid)).is_some() {
                         return Err("Application is already running".to_string());
                     }
                 }
@@ -63,7 +63,7 @@ impl SingleInstance {
                     .map_err(|e| format!("Failed to write PID to lock file: {}", e))?;
 
                 Ok(Self { 
-                    _file: file,
+                    file,
                     lock_path,
                 })
             }
@@ -82,7 +82,7 @@ impl SingleInstance {
 
 impl Drop for SingleInstance {
     fn drop(&mut self) {
-        let _ = self._file.unlock();
+        let _ = fs2::FileExt::unlock(&self.file);
         let _ = std::fs::remove_file(&self.lock_path);
     }
 } 
