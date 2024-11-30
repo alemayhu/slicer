@@ -34,6 +34,18 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Install PostgreSQL client (Ubuntu)
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libpq-dev
+
+      - name: Install PostgreSQL client (macOS)
+        if: matrix.os == 'macos-latest'
+        run: |
+          brew install libpq
+          brew link --force libpq
+
       - name: Install Rust toolchain
         uses: dtolnay/rust-toolchain@stable
         with:
