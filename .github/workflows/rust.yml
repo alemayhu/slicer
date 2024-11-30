@@ -59,7 +59,7 @@ jobs:
           brew unlink postgresql@14
           brew install libpq
           brew link --force libpq
-          brew link --force postgresql@14
+          brew link --overwrite --force postgresql@14
 
       - name: Install Rust toolchain
         uses: dtolnay/rust-toolchain@stable
