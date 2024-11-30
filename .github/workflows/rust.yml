@@ -36,7 +36,7 @@ jobs:
             END IF;
           END
           \$\$;"
-          sudo -u postgres psql -c "SELECT 'CREATE DATABASE slicer' WHERE NOT EXISTS (SELECT FROM pg_database WHERE datname = 'slicer')\gexec"
+          sudo -u postgres psql -c "CREATE DATABASE slicer;" || true
 
       - name: Start PostgreSQL on macOS
         if: matrix.os == 'macos-latest'
