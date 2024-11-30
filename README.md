@@ -34,4 +34,11 @@ time your learning tools understand it well!
 
 The goal of this project is to create a web browser that is faster, more secure, and user-friendly.
 
+## The Stack 🛠️
+
+- Data Management is done via [PostgreSQL](https://www.postgresql.org/)
+- For ORM we use [Diesel](https://diesel.rs/guides/getting-started)
+- The programming language is [Rust](https://www.rust-lang.org/)
+- The engine is [Servo](https://servo.org/)
+
 [0]: https://supermemo.guru/wiki/Incremental_learning
