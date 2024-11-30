@@ -56,10 +56,12 @@ jobs:
       - name: Install PostgreSQL client (macOS)
         if: matrix.os == 'macos-latest'
         run: |
-          brew unlink postgresql@14
           brew install libpq
-          brew link --force libpq
-          brew link --overwrite --force postgresql@14
+          echo 'export PATH="/usr/local/opt/libpq/bin:$PATH"' >> ~/.bash_profile
+          echo 'export PKG_CONFIG_PATH="/usr/local/opt/libpq/lib/pkgconfig"' >> ~/.bash_profile
+          echo 'export LDFLAGS="-L/usr/local/opt/libpq/lib"' >> ~/.bash_profile
+          echo 'export CPPFLAGS="-I/usr/local/opt/libpq/include"' >> ~/.bash_profile
+          source ~/.bash_profile
 
       - name: Install Rust toolchain
         uses: dtolnay/rust-toolchain@stable
@@ -69,8 +71,15 @@ jobs:
 
       - name: Build
         run: cargo build --verbose
+        env:
+          PKG_CONFIG_PATH: ${{ matrix.os == 'macos-latest' && '/usr/local/opt/libpq/lib/pkgconfig' || '' }}
+          LDFLAGS: ${{ matrix.os == 'macos-latest' && '-L/usr/local/opt/libpq/lib' || '' }}
+          CPPFLAGS: ${{ matrix.os == 'macos-latest' && '-I/usr/local/opt/libpq/include' || '' }}
 
       - name: Run tests
         run: cargo test --verbose
         env:
           DATABASE_URL: postgres://postgres:postgres@localhost:5432/slicer
+          PKG_CONFIG_PATH: ${{ matrix.os == 'macos-latest' && '/usr/local/opt/libpq/lib/pkgconfig' || '' }}
+          LDFLAGS: ${{ matrix.os == 'macos-latest' && '-L/usr/local/opt/libpq/lib' || '' }}
+          CPPFLAGS: ${{ matrix.os == 'macos-latest' && '-I/usr/local/opt/libpq/include' || '' }}
