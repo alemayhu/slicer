@@ -27,8 +27,16 @@ jobs:
         if: matrix.os == 'ubuntu-latest'
         run: |
           sudo systemctl start postgresql.service
-          sudo -u postgres psql -c "CREATE USER postgres WITH PASSWORD 'postgres' SUPERUSER;"
-          sudo -u postgres psql -c "CREATE DATABASE slicer;"
+          sudo -u postgres psql -c "DO \$\$
+          BEGIN
+            IF NOT EXISTS (SELECT FROM pg_catalog.pg_roles WHERE rolname = 'postgres') THEN
+              CREATE USER postgres WITH PASSWORD 'postgres' SUPERUSER;
+            ELSE
+              ALTER USER postgres WITH PASSWORD 'postgres' SUPERUSER;
+            END IF;
+          END
+          \$\$;"
+          sudo -u postgres psql -c "SELECT 'CREATE DATABASE slicer' WHERE NOT EXISTS (SELECT FROM pg_database WHERE datname = 'slicer')\gexec"
 
       - name: Start PostgreSQL on macOS
         if: matrix.os == 'macos-latest'
