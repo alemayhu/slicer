@@ -41,6 +41,7 @@ jobs:
       - name: Start PostgreSQL on macOS
         if: matrix.os == 'macos-latest'
         run: |
+          brew install postgresql@14
           brew services start postgresql@14
           sleep 5
           createuser -s postgres
