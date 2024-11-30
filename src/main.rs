@@ -1,38 +1,34 @@
 mod schema;
 mod db;
 mod utils;
+mod ui;
 
-use db::models::NewRun;
-use db::connection::establish_connection;
-use db::repository::RunRepository;
-use utils::system::get_current_username;
+use eframe::egui;
+use ui::app::SlicerApp;
+use utils::single_instance::SingleInstance;
 
-fn main() {
-    println!("Welcome to SliceR!");
-    let mut conn = establish_connection();
-    let mut repo = RunRepository::new(&mut conn);
-    let username = get_current_username();
+fn ensure_single_instance() -> Result<SingleInstance, String> {
+    SingleInstance::new("slicer")
+}
 
-    let new_run = NewRun {
-        description: Some(format!("Started by user: {}", username)),
-        parameters: None,
+fn main() -> eframe::Result<()> {
+    let _instance = ensure_single_instance()
+        .map_err(|e| {
+            eprintln!("Error: {}", e);
+            std::process::exit(1);
+        })
+        .unwrap();
+
+    let native_options = eframe::NativeOptions {
+        viewport: egui::ViewportBuilder::default()
+            .with_inner_size([320.0, 480.0])
+            .with_min_inner_size([320.0, 480.0]),
+        ..Default::default()
     };
-
-    let run = repo.create(new_run)
-        .expect("Error saving new run");
-
-    println!("\n📊 Run Details");
-    println!("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-    println!("🔑 ID          : {}", run.id);
-    println!("⏱️  Start Time  : {}", run.start_time.format("%Y-%m-%d %H:%M:%S"));
-    println!("⏲️  End Time    : {}", run.end_time.map_or("Not finished".to_string(), |t| t.format("%Y-%m-%d %H:%M:%S").to_string()));
-    println!("📋 Status      : {}", run.status);
-    println!("📝 Description : {}", run.description.unwrap_or_else(|| "No description".to_string()));
-    println!("⚙️  Parameters  : {}", run.parameters.map_or("None".to_string(), |p| p.to_string()));
-    println!("📅 Created     : {}", run.created_at.format("%Y-%m-%d %H:%M:%S"));
-    println!("🔄 Updated     : {}", run.updated_at.format("%Y-%m-%d %H:%M:%S"));
-    println!("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n");
-
-    repo.mark_completed(run.id)
-        .expect("Error updating run status");
+    
+    eframe::run_native(
+        "SliceR",
+        native_options,
+        Box::new(|cc| Box::new(SlicerApp::new(cc)))
+    )
 }

@@ -8,3 +8,7 @@ diesel = { version = "2.1.0", features = ["postgres", "chrono", "serde_json"] }
 dotenv = "0.15.0"
 chrono = { version = "0.4", features = ["serde"] }
 serde_json = "1.0"
+eframe = "0.24.0"  # or the latest version
+fs2 = "0.4"
+sysinfo = "0.29"
+dirs = "5.0"
