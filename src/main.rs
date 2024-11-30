@@ -1,57 +1,38 @@
 mod schema;
+mod db;
+mod utils;
+
 use diesel::prelude::*;
-use diesel::pg::PgConnection;
-use dotenv::dotenv;
-use std::env;
-use std::process::Command;
-
-#[allow(dead_code)]
-#[derive(Queryable, Selectable)]
-#[diesel(table_name = schema::runs)]
-struct Run {
-    id: i32,
-    start_time: chrono::NaiveDateTime,
-    end_time: Option<chrono::NaiveDateTime>,
-    status: String,
-    description: Option<String>,
-    parameters: Option<serde_json::Value>,
-    created_at: chrono::NaiveDateTime,
-    updated_at: chrono::NaiveDateTime,
-}
-
-#[derive(Insertable)]
-#[diesel(table_name = schema::runs)]
-struct NewRun {
-    description: Option<String>,
-    parameters: Option<serde_json::Value>,
-}
-
-fn establish_connection() -> PgConnection {
-    dotenv().ok();
-    let database_url = env::var("DATABASE_URL").expect("DATABASE_URL must be set");
-    PgConnection::establish(&database_url).expect("Error connecting to database")
-}
+use db::models::{Run, NewRun};
+use db::connection::establish_connection;
+use utils::system::get_current_username;
 
 fn main() {
     println!("Welcome to SliceR!");
     let mut conn = establish_connection();
-    let username = Command::new("whoami")
-        .output()
-        .ok()
-        .and_then(|output| String::from_utf8(output.stdout).ok())
-        .unwrap_or_else(|| "unknown".to_string())
-        .trim()
-        .to_string();
+    let username = get_current_username();
 
     let new_run = NewRun {
         description: Some(format!("Started by user: {}", username)),
         parameters: None,
     };
+
     let run: Run = diesel::insert_into(schema::runs::table)
         .values(&new_run)
         .get_result(&mut conn)
         .expect("Error saving new run");
-    println!("Created new run with ID: {}", run.id);
+
+    println!("\n📊 Run Details");
+    println!("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+    println!("🔑 ID          : {}", run.id);
+    println!("⏱️  Start Time  : {}", run.start_time.format("%Y-%m-%d %H:%M:%S"));
+    println!("⏲️  End Time    : {}", run.end_time.map_or("Not finished".to_string(), |t| t.format("%Y-%m-%d %H:%M:%S").to_string()));
+    println!("📋 Status      : {}", run.status);
+    println!("🔤 Description : {:?}", run.description);
+    println!("🔧 Parameters  : {:?}", run.parameters);
+    println!("🗓️ Created At : {}", run.created_at);
+    println!("🔄 Updated At : {}", run.updated_at);
+
     diesel::update(schema::runs::table.find(run.id))
         .set((
             schema::runs::status.eq("completed"),
