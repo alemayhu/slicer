@@ -34,6 +34,11 @@ time your learning tools understand it well!
 
 The goal of this project is to create a web browser that is faster, more secure, and user-friendly.
 
+## Requirements
+
+- PostgreSQL 12 or higher must be installed and running
+- Rust toolchain (cargo, rustc)
+
 ## The Stack 🛠️
 
 - Data Management is done via [PostgreSQL](https://www.postgresql.org/)

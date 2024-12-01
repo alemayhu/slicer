@@ -12,3 +12,4 @@ eframe = "0.24.0"  # or the latest version
 fs2 = "0.4"
 sysinfo = "0.29"
 dirs = "5.0"
+diesel_migrations = "2.1.0"

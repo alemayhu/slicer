@@ -1,7 +1,7 @@
 use diesel::prelude::*;
 use crate::schema::runs;
 
-#[derive(Queryable, Selectable)]
+#[derive(Queryable, Selectable, Clone)]
 #[diesel(table_name = runs)]
 pub struct Run {
     pub id: i32,
